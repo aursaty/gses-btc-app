@@ -40,7 +40,10 @@ func GetCurrentPrice(fromCurr string, toCurr string) (int64, error) {
 	}
 
 	var result map[string]any
-	json.Unmarshal([]byte(body), &result)
+	err = json.Unmarshal([]byte(body), &result)
+	if err != nil {
+		return 0, err
+	}
 
 	getRate := result[fromCurr].(map[string]any)
 

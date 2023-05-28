@@ -50,6 +50,11 @@ func SubscribeHandler(writer http.ResponseWriter, request *http.Request) {
 
 func GetRateHandler(writer http.ResponseWriter, request *http.Request) {
 	price, err := services.GetCurrentPrice(utils.FromCurr, utils.ToCurr)
+	if price == 0 {
+		writer.WriteHeader(http.StatusBadGateway)
+		return
+	}
+
 	if err != nil {
 		writer.WriteHeader(http.StatusBadRequest)
 		return
